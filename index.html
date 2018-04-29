@@ -59,27 +59,30 @@
           
           <!-- This is the buttons for song selections -->
             <div class="btn-group" role="group" aria-label="...">
-              <button type="button" class="btn btn-default">Song 1</button>
-              <button type="button" class="btn btn-default">Song 2</button>
-              <button type="button" class="btn btn-default">Song 3</button>
 
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Genre
-                  <span class="caret"></span>
-                </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Rock</a></li>
-                      <li><a href="#">Pop</a></li>
-                    </ul>
-              </div>
+
+              <form action = "http://i5.abudhabi.nyu.edu/~lf1345/cgi-bin/form.py" method = "post" id = "nameForm">
+                <!-- <button type="button" class="btn btn-default">Song 1</button>
+                <button type="button" class="btn btn-default">Song 2</button>
+                <button type="button" class="btn btn-default">Song 3</button> -->
+
+                <input type = "radio" name = "song" value = "song1">Song 1
+                <input type = "radio" name = "song" value = "song2">Song 2
+                <input type = "radio" name = "song" value = "song3">Song 3
+
+                <input type = "submit" value = "Enter">
+
+
+              </form>
+              
+
             </div>
 
            
 
           <div class="mastfoot">
             <div class="inner">
-              <p>Lucas Futch | Kevin Long Noll</p>
+              <p>Lucas Futch | Kevin Long Noll | <a href = "https://www.bigbustours.com/en/new-york/top-10-things-to-do-in-new-york/">Image Source</a> </p>
             </div>
           </div>
 
