@@ -187,3 +187,14 @@ a.myLink:hover {
 }
 
 
+
+/*
+Form
+*/
+
+
+.form {
+  margin: 10px auto;
+  color: black;
+  text-align: center;
+}

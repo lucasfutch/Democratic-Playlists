@@ -93,62 +93,57 @@ def htmlTail():
 """)
 
 
+def printRegistration():
+  print("""
+<h2>New User Registration</h2>
+          
+          <!-- This is the buttons for song selections -->
+            <div class="btn-group" role="group" aria-label="...">
+              <form action = "../cgi-bin/login.py" method = "post" id = "loginForm">
+                <!-- <button type="button" class="btn btn-default">Song 1</button>
+                <button type="button" class="btn btn-default">Song 2</button>
+                <button type="button" class="btn btn-default">Song 3</button> --> 
+
+                <p>Username</p>
+                <input class = "form" type="text" name="username" placeholder = "username">
+                <p>Password</p>
+                <input class = "form" type="password" name="password" placeholder = "password"><p>
+
+                <input class = "form"  type = "submit" name = "submit" value = "Register">
+                <input class = "form"  type="reset" name="cancel" value=Cancel>
+              </form>
+            </div>
+""")
 
 # save the computed results
-def saveResults(name):
-	results = open("results.txt", 'a')
-	results.write(name + "\n")
+def saveResults(item):
+	results = open("users.txt", 'w')
+	results.write(item + "\n")
 	results.close()
 
-# get grades from file
-def readResults(resultsList):
-	grades = open("results.txt", 'r')
-
-	song1 = 0
-	song2 = 0
-	song3 = 0
-
-	for line in grades:
-		song = line.rstrip('\n')
-		if song == "song1":
-			song1 += 1
-		elif song == "song2":
-			song2 += 1
-		elif song == "song3":
-			song3 += 1
-	
-	grades.close()
-
-	return song1, song2, song3
-
 def main():
-	
-
-	results = []
-	song1 = 0
-	song2 = 0
-	song3 = 0
-
-	song1Name = "God's Plan - Drake"
-
-	
 	data = cgi.FieldStorage()
 
-	if "song" not in data:
-		print("<h1 style = 'margin-bottom:40px;'>Please select a song!</h1>")
-	else:
-		songSelection = data['song'].value
-		saveResults(songSelection)
+	if "username" not in data and "password" not in data:
+		print("<p>I AM IN THE IF</p>")
+		printRegistration()
+
+	else: 
+		print("<p>I AM IN THE ELSE</p>")
+		username = data.getlist('username')
+		password = data.getlist('password')
+
+		print("<p>", username, "</p>")
 
 
-	song1, song2, song3 = readResults(results)
+		# userString =  + ":" + password
 
-	print("<h2>", song1Name, ":", song1, " votes</h2>")
-	print("<h2>Dua Lipa &mdash; IDGAF:", song2, " votes</h2>")
-	print("<h2>Ariana Grande &mdash; No Tears Left to Cry:", song3, " votes</h2>")
+		# print("<h2>Successfully registered ", username, "!</h2>")
+		saveResults(userString)
+
+		
 
 
-	
 
 htmlHead()
 main()

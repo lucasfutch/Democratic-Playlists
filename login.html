@@ -46,7 +46,6 @@
               <nav>
                 <ul class="nav masthead-nav">
                   <li class="active"><a href="#">Home</a></li>
-                  <li><a href="register.html">Register</a></li>
                   <li><a href="../cgi-bin/form.py">Currently Playing...</a></li>
                   <li><a href="about.html">About</a></li>
                 </ul>
@@ -62,16 +61,20 @@
             <div class="btn-group" role="group" aria-label="...">
 
 
-              <form action = "../cgi-bin/form.py" method = "post" id = "nameForm">
+              <form action = "../cgi-bin/login.py" method = "post" id = "loginForm">
                 <!-- <button type="button" class="btn btn-default">Song 1</button>
                 <button type="button" class="btn btn-default">Song 2</button>
                 <button type="button" class="btn btn-default">Song 3</button> -->
 
-                <input type = "radio" name = "song" value = "song1"><p>God's Plan &mdash; Drake</p>
-                <input type = "radio" name = "song" value = "song2"><p>IDGAF &mdash; Dua Lipa</p>
-                <input type = "radio" name = "song" value = "song3"><p>No Tears Left To Cry &mdash; Ariana Grande</p>
+                <h2>New User Registration</h2>
 
-                <input class = "form" type = "submit" value = "Enter">
+                <p class = "formText">Username</p>
+                <input class = "form" type="text" name="username" placeholder = "Lucas Futch">
+                <p class = "formText">Password</p>
+                <input class = "form" type="password" name="password" placeholder = "password"><p>
+
+                <input class = "form"  type = "submit" name = "submit" value = "Register">
+                <input class = "form"  type="reset" name="cancel" value=cancel>
 
 
               </form>
