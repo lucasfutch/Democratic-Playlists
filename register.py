@@ -54,8 +54,8 @@ def htmlHead():
               <nav>
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
-                  <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li><a href="../cgi-bin/form.py">Currently Playing...</a></li>
+                  <li class = "active"><a href="../DemocraticPlaylists/register.html">Register</a></li>
+                  <li><a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
               </nav>
@@ -117,7 +117,7 @@ def printRegistration():
 
 # save the computed results
 def saveResults(item):
-	results = open("users.txt", 'w')
+	results = open("users.txt", 'a')
 	results.write(item + "\n")
 	results.close()
 
@@ -129,16 +129,12 @@ def main():
 		printRegistration()
 
 	else: 
-		print("<p>I AM IN THE ELSE</p>")
-		username = data.getlist('username')
-		password = data.getlist('password')
+		username = data["username"].value
+		password = data["password"].value
 
-		print("<p>", username, "</p>")
+		userString =  username + ":" + password
 
-
-		# userString =  + ":" + password
-
-		# print("<h2>Successfully registered ", username, "!</h2>")
+		print("<h2>Successfully registered " + username + "!</h2>")
 		saveResults(userString)
 
 		

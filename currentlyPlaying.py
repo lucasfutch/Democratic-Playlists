@@ -1,4 +1,11 @@
+#!/usr/bin/python3.2
+print("Content-Type: text/html\n\n")
 
+import cgi
+import cgitb
+
+def htmlHead():
+	print(""" 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,17 +20,17 @@
     <title>Democratic Playlists</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../DemocraticPlaylists/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="../DemocraticPlaylists/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="cover.css" rel="stylesheet">
+    <link href="../DemocraticPlaylists/cover.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
+    <script src="../DemocraticPlaylists/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -46,53 +53,22 @@
               <h3 class="masthead-brand">Democratic Playlists</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="register.html">Register</a></li>
-                  <li><a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
-                  <li class="active"><a href="#">About</a></li>
+                  <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
+                  <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
+                  <li class = "active"> <a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
+                  <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
               </nav>
             </div>
           </div>
 
           <div class="inner cover">
-            
-          <h2>About This Website</h2>
-          <br>
-          <div>
-            <br>
-            This website is part of our final project for the class "Language of Computers".
-            <br> 
-            <a class = "myLink" href = "https://sites.google.com/nyu.edu/projectlf1345kln289">Our Google Website for Weekly Reports</a>
-            <br>
-            The creators of this website are Lucas Futch and Kevin Long Noll.
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            Please contact us if you have any questions or conncerns regarding this website:
-            <br>
-            Lucas Futch and Kevin Long Noll
-            <br>
-            New York University Abu Dhabi
-            <br>
-            PO Box 129188
-            <br>
-            Saadiyat Island, Abu Dhabi
-            United Arab Emirates 
-            </div>
-          
+""")
 
 
-          <p> </p>
-        
-
-
-           
-
-          <div class="mastfoot">
+def htmlTail():
+	print(""" 
+		  <div class="mastfoot">
             <div class="inner">
               <p>Lucas Futch | Kevin Long Noll | <a class = "myLink" href = "https://www.bigbustours.com/en/new-york/top-10-things-to-do-in-new-york/">Image Source</a> </p>
             </div>
@@ -109,8 +85,69 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../DemocraticPlaylists/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../DemocraticPlaylists/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
+""")
+
+
+
+# save the computed results
+def saveResults(name):
+	results = open("results.txt", 'a')
+	results.write(name + "\n")
+	results.close()
+
+# get grades from file
+def readResults(resultsList):
+	grades = open("results.txt", 'r')
+
+	song1 = 0
+	song2 = 0
+	song3 = 0
+
+	for line in grades:
+		song = line.rstrip('\n')
+		if song == "song1":
+			song1 += 1
+		elif song == "song2":
+			song2 += 1
+		elif song == "song3":
+			song3 += 1
+	
+	grades.close()
+
+	return song1, song2, song3
+
+def main():
+	
+
+	results = []
+	song1 = 0
+	song2 = 0
+	song3 = 0
+
+	song1Name = "God's Plan - Drake"
+
+	
+	data = cgi.FieldStorage()
+
+	if "song" in data:
+		songSelection = data['song'].value
+		saveResults(songSelection)
+
+
+	song1, song2, song3 = readResults(results)
+
+	print("<h2>", song1Name, ":", song1, " votes</h2>")
+	print("<h2>Dua Lipa &mdash; IDGAF:", song2, " votes</h2>")
+	print("<h2>Ariana Grande &mdash; No Tears Left to Cry:", song3, " votes</h2>")
+
+
+	
+
+htmlHead()
+main()
+htmlTail()
