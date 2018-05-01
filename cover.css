@@ -44,7 +44,7 @@ body {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Jua', sans-serif;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -123,10 +123,22 @@ body {
 
 .cover {
   padding: 0 20px;
+  background:rgba(1,1,1,0.8);
 }
 .cover .btn-lg {
   padding: 10px 20px;
   font-weight: bold;
+}
+
+
+a.myLink {
+  background-color: white; 
+  color: black;
+}
+
+a.myLink:hover {
+  background-color: orange; 
+  color: black;
 }
 
 
@@ -173,3 +185,5 @@ body {
     width: 700px;
   }
 }
+
+
