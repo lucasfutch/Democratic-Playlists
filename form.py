@@ -55,7 +55,7 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li class = "active"> <a href="../cgi-bin/form.py">Currently Playing...</a></li>
+                  <li class = "active"> <a href="#">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
               </nav>
@@ -119,7 +119,11 @@ def readResults(resultsList):
 	
 	grades.close()
 
-	return song1, song2, song3
+	resultsList.append(song1)
+	resultsList.append(song2)
+	resultsList.append(song3)
+
+	return resultsList
 
 def main():
 	
@@ -141,11 +145,11 @@ def main():
 		saveResults(songSelection)
 
 
-	song1, song2, song3 = readResults(results)
+	results = readResults(results)
 
-	print("<h2>", song1Name, ":", song1, " votes</h2>")
-	print("<h2>Dua Lipa &mdash; IDGAF:", song2, " votes</h2>")
-	print("<h2>Ariana Grande &mdash; No Tears Left to Cry:", song3, " votes</h2>")
+	print("<h2>", song1Name, ":", results[0], " votes</h2>")
+	print("<h2>Dua Lipa &mdash; IDGAF:", results[1], " votes</h2>")
+	print("<h2>Ariana Grande &mdash; No Tears Left to Cry:", results[2], " votes</h2>")
 
 
 	

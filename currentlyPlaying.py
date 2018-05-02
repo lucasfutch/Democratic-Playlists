@@ -55,7 +55,7 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li class = "active"> <a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
+                  <li class = "active"> <a href="#">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
               </nav>
@@ -96,57 +96,65 @@ def htmlTail():
 
 # save the computed results
 def saveResults(name):
-	results = open("results.txt", 'a')
-	results.write(name + "\n")
-	results.close()
+  results = open("results.txt", 'a')
+  results.write(name + "\n")
+  results.close()
 
 # get grades from file
 def readResults(resultsList):
-	grades = open("results.txt", 'r')
+  grades = open("results.txt", 'r')
 
-	song1 = 0
-	song2 = 0
-	song3 = 0
+  song1 = 0
+  song2 = 0
+  song3 = 0
 
-	for line in grades:
-		song = line.rstrip('\n')
-		if song == "song1":
-			song1 += 1
-		elif song == "song2":
-			song2 += 1
-		elif song == "song3":
-			song3 += 1
-	
-	grades.close()
+  for line in grades:
+    song = line.rstrip('\n')
+    if song == "song1":
+      song1 += 1
+    elif song == "song2":
+      song2 += 1
+    elif song == "song3":
+      song3 += 1
+  
+  grades.close()
 
-	return song1, song2, song3
+  resultsList.append(song1)
+  resultsList.append(song2)
+  resultsList.append(song3)
+
+  return resultsList
+
 
 def main():
-	
 
-	results = []
-	song1 = 0
-	song2 = 0
-	song3 = 0
+  # stores total vote counts
+  results = []
 
-	song1Name = "God's Plan - Drake"
+  songNames = [ "Drake - God's Plan", 
+                "Dua Lipa - IDGAF:", 
+                "Ariana Grande - No Tears Left to Cry"
+              ]
 
-	
-	data = cgi.FieldStorage()
+  songYT_URL = ["xpVfcZ0ZcFM", "Mgfe5tIwOj0", "ffxKSjUwKdU"]
 
-	if "song" in data:
-		songSelection = data['song'].value
-		saveResults(songSelection)
+  results = readResults(results)
+
+  print("<h2>", songNames[0], ":", results[0], " votes</h2>")
+  print("<h2>", songNames[1], ":", results[1], " votes</h2>")
+  print("<h2>", songNames[2], ":", results[2], " votes</h2>")
+
+  iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
+  iFrame += 'https://www.youtube.com/embed?listType=search&list='
+  #iFrame += songYT_URL[results.index(max(results))]
+  iFrame += songNames[results.index(max(results))]
+  iFrame += '"" frameborder="0" style="border: solid 4px #37474F"></iframe>'
 
 
-	song1, song2, song3 = readResults(results)
-
-	print("<h2>", song1Name, ":", song1, " votes</h2>")
-	print("<h2>Dua Lipa &mdash; IDGAF:", song2, " votes</h2>")
-	print("<h2>Ariana Grande &mdash; No Tears Left to Cry:", song3, " votes</h2>")
+  print(iFrame)
 
 
-	
+  
 
 htmlHead()
 main()
