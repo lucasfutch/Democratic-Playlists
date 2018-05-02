@@ -129,11 +129,12 @@ def main():
 	
 
 	results = []
-	song1 = 0
-	song2 = 0
-	song3 = 0
 
-	song1Name = "God's Plan - Drake"
+
+	songNames = [ 	"Drake - God's Plan", 
+                	"Dua Lipa - IDGAF:", 
+                	"Ariana Grande - No Tears Left to Cry"
+              	]
 
 	
 	data = cgi.FieldStorage()
@@ -147,9 +148,14 @@ def main():
 
 	results = readResults(results)
 
-	print("<h2>", song1Name, ":", results[0], " votes</h2>")
-	print("<h2>Dua Lipa &mdash; IDGAF:", results[1], " votes</h2>")
-	print("<h2>Ariana Grande &mdash; No Tears Left to Cry:", results[2], " votes</h2>")
+  	print("<h2>", songNames[0], ":", results[0], " votes</h2>")
+  	print("<h2>", songNames[1], ":", results[1], " votes</h2>")
+  	print("<h2>", songNames[2], ":", results[2], " votes</h2>")
+
+  	iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
+  	iFrame += 'https://www.youtube.com/embed?listType=search&list='
+ 	iFrame += songNames[results.index(max(results))]
+  	iFrame += '"" frameborder="0" style="border: solid 4px #37474F"></iframe>'
 
 
 	

@@ -136,8 +136,6 @@ def main():
                 "Ariana Grande - No Tears Left to Cry"
               ]
 
-  songYT_URL = ["xpVfcZ0ZcFM", "Mgfe5tIwOj0", "ffxKSjUwKdU"]
-
   results = readResults(results)
 
   print("<h2>", songNames[0], ":", results[0], " votes</h2>")
@@ -146,7 +144,6 @@ def main():
 
   iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
   iFrame += 'https://www.youtube.com/embed?listType=search&list='
-  #iFrame += songYT_URL[results.index(max(results))]
   iFrame += songNames[results.index(max(results))]
   iFrame += '"" frameborder="0" style="border: solid 4px #37474F"></iframe>'
 
