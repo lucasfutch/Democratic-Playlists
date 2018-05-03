@@ -5,7 +5,7 @@ import cgi
 import cgitb
 
 def htmlHead():
-	print(""" 
+    print(""" 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -55,8 +55,8 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li><a href="../DemocraticPlaylists/login.html">Log In</a></li>
-                  <li class = "active"> <a href="#">Currently Playing...</a></li>
+                  <li class="active"><a href="../DemocraticPlaylists/login.html">Log In</a></li>
+                  <li><a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
               </nav>
@@ -68,7 +68,7 @@ def htmlHead():
 
 
 def htmlTail():
-	print(""" 
+    print(""" 
 		  <div class="mastfoot">
             <div class="inner">
               <p>Lucas Futch | Kevin Long Noll | <a class = "myLink" href = "https://www.bigbustours.com/en/new-york/top-10-things-to-do-in-new-york/">Image Source</a> </p>
@@ -93,66 +93,70 @@ def htmlTail():
 </html>
 """)
 
+def printLogin():
+    print(""" 
+<h2>Login</h2>
+          
+          <!-- This is the buttons for song selections -->
+            <div class="btn-group" role="group" aria-label="...">
 
 
-# save the computed results
-def saveResults(name):
-  results = open("results.txt", 'a')
-  results.write(name + "\n")
-  results.close()
+              <form action = "../cgi-bin/login.py" method = "post" id = "loginForm">
+                <!-- <button type="button" class="btn btn-default">Song 1</button>
+                <button type="button" class="btn btn-default">Song 2</button>
+                <button type="button" class="btn btn-default">Song 3</button> -->
 
-# get grades from file
-def readResults(resultsList):
-  grades = open("results.txt", 'r')
+                <p class = "formText">Username</p>
+                <input class = "form" type="text" name="username" placeholder = "username">
+                <p class = "formText">Password</p>
+                <input class = "form" type="password" name="password" placeholder = "password"><p>
 
-  song1 = 0
-  song2 = 0
-  song3 = 0
+                <input class = "form"  type = "submit" name = "submit" value = "Log In">
+                <input class = "form"  type="reset" name="cancel" value=cancel>
 
-  for line in grades:
-    song = line.rstrip('\n')
-    if song == "song1":
-      song1 += 1
-    elif song == "song2":
-      song2 += 1
-    elif song == "song3":
-      song3 += 1
+
+              </form>
+
+
+            </div>
+
+
+
+""")
+
+def readUsers(myUser, myPassword):
+    users = open("users.txt", 'r')
+    found = False
   
-  grades.close()
+    for line in users:
+        user = line.rstrip('\n')
+        username, password = user.split(':')
 
-  resultsList.append(song1)
-  resultsList.append(song2)
-  resultsList.append(song3)
+        if (myUser == username) and (myPassword == password):
+          found = True
 
-  return resultsList
+    users.close()
+    return found
 
 
 def main():
+    data = cgi.FieldStorage()
 
-  # stores total vote counts
-  results = []
+    if "username" not in data and "password" not in data:
+        print("<h2>Please fill in all fields!</h2>")
+        printLogin()
+    else: 
+        username = data["username"].value
+        password = data["password"].value
 
-  songNames = [ "Drake - God's Plan", 
-                "Dua Lipa - IDGAF:", 
-                "Ariana Grande - No Tears Left to Cry"
-              ]
-
-  results = readResults(results)
-
-  print("<h2>", songNames[0], ":", results[0], " votes</h2>")
-  print("<h2>", songNames[1], ":", results[1], " votes</h2>")
-  print("<h2>", songNames[2], ":", results[2], " votes</h2>")
-
-  iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
-  iFrame += 'https://www.youtube.com/embed?listType=search&list='
-  iFrame += songNames[results.index(max(results))]
-  iFrame += '" frameborder="0" style="border: solid 4px #37474F"></iframe>'
+        exists = readUsers(username, password)
+        if exists:
+            print("<h2>Welcome " + username + "!</h2>")
+        else:
+            print("<h2>Username or password are incorrect!</h2>")
+            printLogin()
 
 
-  print(iFrame)
-
-
-  
 
 htmlHead()
 main()

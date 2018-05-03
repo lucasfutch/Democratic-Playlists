@@ -55,6 +55,7 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
+                  <li><a href="../DemocraticPlaylists/login.html">Log In</a></li>
                   <li class = "active"> <a href="#">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
@@ -126,15 +127,13 @@ def readResults(resultsList):
 	return resultsList
 
 def main():
-	
-
 	results = []
 
 
-	songNames = [ 	"Drake - God's Plan", 
-                	"Dua Lipa - IDGAF:", 
-                	"Ariana Grande - No Tears Left to Cry"
-              	]
+	songNames = [	"Drake - God's Plan", 
+					"Dua Lipa - IDGAF:", 
+					"Ariana Grande - No Tears Left to Cry"
+				]
 
 	
 	data = cgi.FieldStorage()
@@ -142,20 +141,20 @@ def main():
 	if "song" not in data:
 		print("<h1 style = 'margin-bottom:40px;'>Please select a song!</h1>")
 	else:
-		songSelection = data['song'].value
-		saveResults(songSelection)
+		saveResults(data['song'].value)
 
 
 	results = readResults(results)
 
-  	print("<h2>", songNames[0], ":", results[0], " votes</h2>")
-  	print("<h2>", songNames[1], ":", results[1], " votes</h2>")
-  	print("<h2>", songNames[2], ":", results[2], " votes</h2>")
+	print("<h2>", songNames[0], ":", results[0], " votes</h2>")
+	print("<h2>", songNames[1], ":", results[1], " votes</h2>")
+	print("<h2>", songNames[2], ":", results[2], " votes</h2>")
 
-  	iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
-  	iFrame += 'https://www.youtube.com/embed?listType=search&list='
- 	iFrame += songNames[results.index(max(results))]
-  	iFrame += '"" frameborder="0" style="border: solid 4px #37474F"></iframe>'
+	iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
+	iFrame += 'https://www.youtube.com/embed?listType=search&list='
+	iFrame += songNames[results.index(max(results))]
+	iFrame += '" frameborder="0" style="border: solid 4px #37474F"></iframe>'
+	print(iFrame)
 
 
 	

@@ -55,6 +55,7 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li class = "active"><a href="../DemocraticPlaylists/register.html">Register</a></li>
+                  <li><a href="../DemocraticPlaylists/login.html">Log In</a></li>
                   <li><a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
@@ -125,7 +126,7 @@ def main():
 	data = cgi.FieldStorage()
 
 	if "username" not in data and "password" not in data:
-		print("<p>I AM IN THE IF</p>")
+		print("<h2>Please fill in all fields!</h2>")
 		printRegistration()
 
 	else: 
