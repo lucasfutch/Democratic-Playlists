@@ -71,7 +71,7 @@ def htmlTail():
     print(""" 
 		  <div class="mastfoot">
             <div class="inner">
-              <p>Lucas Futch | Kevin Long Noll | <a class = "myLink" href = "https://www.bigbustours.com/en/new-york/top-10-things-to-do-in-new-york/">Image Source</a> </p>
+              <p>Lucas Futch | Kevin Long Noll | <a class = "myLink" href = "https://www.phostell.com/wp-content/uploads/2018/01/Bridge-Brooklyn-Bridge-Buildings-City-City-Lights-Dark-Evening-Lights-New-York-City-Night-Nyc-Ocean-Reflection-River-Sea-Sky-Skyline-Skyscrapers-Tall-Tower-United-States-Of-America-Urban-Water.jpeg">Image Source</a> </p>
             </div>
           </div>
 
