@@ -4,6 +4,8 @@ print("Content-Type: text/html\n\n")
 import cgi
 import cgitb
 
+import scrape
+
 def htmlHead():
 	print(""" 
 <!DOCTYPE html>
@@ -55,7 +57,6 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li><a href="../DemocraticPlaylists/login.html">Log In</a></li>
                   <li class = "active"> <a href="#">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
@@ -93,32 +94,52 @@ def htmlTail():
 </html>
 """)
 
-
-
-# save the computed results
 def saveResults(name):
   results = open("results.txt", 'a')
   results.write(name + "\n")
   results.close()
 
-# get grades from file
 def readResults(resultsList):
-  songs = open("results.txt", 'r')
+  results = open("results.txt", 'r')
 
-  for line in songs:
-    resultsList.append(line.rstrip('\n'))
+  for line in results:
+    resultsList.append(line.rstrip('\n').lstrip())
+
+  results.close()
   
   return resultsList
 
-def main():
+def readSongs(mySongs):
+    songFile = open("songs.txt", "r")
+    for line in songFile:
+        mySongs.append(line.rstrip('\n'))
+
+    songFile.close()
+    return mySongs
+
+def addVote():
+  data = cgi.FieldStorage()
+
+  if "song" not in data:
+    print("<h1 style = 'margin-bottom:40px;'>No vote was cast!</h1>")
+  else:
+    saveResults(data['song'].value)
+
+def results():
 
   # stores total vote counts
   results = []
+  songNames = []
 
-  songNames = [ "Drake - God's Plan", 
-                "Dua Lipa - IDGAF:", 
-                "Ariana Grande - No Tears Left to Cry"
-              ]
+  songNames = readSongs(songNames)
+
+  splitSongsName = []
+  splitSongsURL = []
+
+  for item in songNames:
+    name, url = item.split(":")
+    splitSongsName.append(name)
+    splitSongsURL.append(url)
 
   results = readResults(results)
 
@@ -141,23 +162,26 @@ def main():
 
   popularsong = [numvotessong1, numvotessong2, numvotessong3]
 
-  print("<h2>", songNames[0], ":", numvotessong1, " votes</h2>")
-  print("<h2>", songNames[1], ":", numvotessong2, " votes</h2>")
-  print("<h2>", songNames[2], ":", numvotessong3, " votes</h2>")
+  print("<h2>", splitSongsName[0], ":", numvotessong1, " votes</h2>")
+  print("<h2>", splitSongsName[1], ":", numvotessong2, " votes</h2>")
+  print("<h2>", splitSongsName[2], ":", numvotessong3, " votes</h2>")
 
   iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
   iFrame += 'https://www.youtube.com/embed?listType=search&list='
-  iFrame += songNames[popularsong.index(max(popularsong))]
+  iFrame += splitSongsURL[popularsong.index(max(popularsong))]
   iFrame += '" frameborder="0" style="border: solid 4px #37474F"></iframe>'
 
   if len(results) == 10:
     open("results.txt", "w").close()
+    scrape.scrape()
+
+
 
   print(iFrame)
 
 
-  
-
-htmlHead()
-main()
-htmlTail()
+if __name__ == '__main__':
+    htmlHead()
+    addVote()
+    results()
+    htmlTail()

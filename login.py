@@ -53,9 +53,8 @@ def htmlHead():
               <h3 class="masthead-brand">Democratic Playlists</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
+                  <li class = "active"><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li class="active"><a href="../DemocraticPlaylists/login.html">Log In</a></li>
                   <li><a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
@@ -124,7 +123,7 @@ def printLogin():
 
 """)
 
-def printVote(songList):
+def printVote(username, songList):
   print("""
 <h2>Vote for your Song:</h2>
           
@@ -134,15 +133,15 @@ def printVote(songList):
 
               <form action = "../cgi-bin/results.py" method = "post" id = "nameForm">
 
-                <input type = "radio" name = "song" value = "song1"><p>""" + songList[0] + """</p>""" + 
-                """<input type = "radio" name = "song" value = "song2"><p>""" + songList[1] + """</p>""" +
-                """<input type = "radio" name = "song" value = "song3"><p>""" + songList[2] + """</p>
+                <input type = "radio" name = "song" value = " """ + username + """:1"><p>""" + songList[0] + """</p>""" + 
+                """<input type = "radio" name = "song" value = " """ + username + """:2"><p>""" + songList[1] + """</p>""" +
+                """<input type = "radio" name = "song" value = "  """ + username + """:3"><p>""" + songList[2] + """</p>
                 <input class = "form" type = "submit" value = "Enter">
               </form>
             </div>
     """)
 
-def readUsers(myUser, myPassword):
+def readUsers(myUser):
     users = open("users.txt", 'r')
     found = False
   
@@ -150,16 +149,17 @@ def readUsers(myUser, myPassword):
         user = line.rstrip('\n')
         username, password = user.split(':')
 
-        if (myUser == username) and (myPassword == password):
-          found = True
+        if (myUser == username):
+            found = True
 
     users.close()
     return found
 
 def readSongs(mySongs):
-    songFile = open("songs.txt", "r")
+    songFile = open("songs.txt", 'r')
+
     for line in songFile:
-        mySongs.append(line.rstrip('\n'))
+      mySongs.append(line.rstrip('\n'))
 
     songFile.close()
     return mySongs
@@ -167,9 +167,14 @@ def readSongs(mySongs):
 
 def main():
     songs = []
-
+    splitSongs = []
+    
     data = cgi.FieldStorage()
     songs = readSongs(songs)
+
+    for item in songs:
+      name, url = item.split(":")
+      splitSongs.append(name)
 
     if "username" not in data and "password" not in data:
         print("<h2>Please fill in all fields!</h2>")
@@ -178,14 +183,13 @@ def main():
         username = data["username"].value
         password = data["password"].value
 
-        exists = readUsers(username, password)
+        exists = readUsers(username)
         if exists:
             print("<h2>Welcome " + username + "!</h2>")
-            print(printVote(songs))
+            printVote(username, splitSongs)
         else:
             print("<h2>Username or password are incorrect!</h2>")
             printLogin()
-
 
 
 htmlHead()

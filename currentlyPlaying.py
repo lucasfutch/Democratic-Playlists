@@ -55,8 +55,7 @@ def htmlHead():
                 <ul class="nav masthead-nav">
                   <li><a href="../DemocraticPlaylists/index.html">Home</a></li>
                   <li><a href="../DemocraticPlaylists/register.html">Register</a></li>
-                  <li><a href="../DemocraticPlaylists/login.html">Log In</a></li>
-                  <li class = "active"> <a href="#">Currently Playing...</a></li>
+                  <li class = "active"> <a href="../cgi-bin/currentlyPlaying.py">Currently Playing...</a></li>
                   <li><a href="../DemocraticPlaylists/about.html">About</a></li>
                 </ul>
               </nav>
@@ -93,37 +92,27 @@ def htmlTail():
 </html>
 """)
 
+def readSongs(mySongs):
+    songFile = open("songs.txt", "r")
+    for line in songFile:
+        mySongs.append(line.rstrip('\n'))
 
+    songFile.close()
+    return mySongs
 
-# save the computed results
 def saveResults(name):
   results = open("results.txt", 'a')
   results.write(name + "\n")
   results.close()
 
-# get grades from file
 def readResults(resultsList):
-  grades = open("results.txt", 'r')
+  songs = open("results.txt", 'r')
 
-  song1 = 0
-  song2 = 0
-  song3 = 0
+  for line in songs:
+    resultsList.append(line.rstrip('\n').lstrip())
 
-  for line in grades:
-    song = line.rstrip('\n')
-    if song == "song1":
-      song1 += 1
-    elif song == "song2":
-      song2 += 1
-    elif song == "song3":
-      song3 += 1
+  songs.close()
   
-  grades.close()
-
-  resultsList.append(song1)
-  resultsList.append(song2)
-  resultsList.append(song3)
-
   return resultsList
 
 
@@ -131,23 +120,47 @@ def main():
 
   # stores total vote counts
   results = []
+  songNames = []
 
-  songNames = [ "Drake - God's Plan", 
-                "Dua Lipa - IDGAF:", 
-                "Ariana Grande - No Tears Left to Cry"
-              ]
+  songNames = readSongs(songNames)
+
+  splitSongsName = []
+  splitSongsURL = []
+
+  for item in songNames:
+    name, url = item.split(":")
+    splitSongsName.append(name)
+    splitSongsURL.append(url)
 
   results = readResults(results)
 
-  print("<h2>", songNames[0], ":", results[0], " votes</h2>")
-  print("<h2>", songNames[1], ":", results[1], " votes</h2>")
-  print("<h2>", songNames[2], ":", results[2], " votes</h2>")
+  listname1 = []
+  listname2 = []
+  listname3 = []
+
+  for items in results:
+    name, vote = items.split(":")
+    if vote == "1":
+      listname1.append(name)
+    if vote == "2":
+      listname2.append(name)
+    if vote == "3":
+      listname3.append(name)
+
+  numvotessong1 = len(listname1)
+  numvotessong2 = len(listname2)
+  numvotessong3 = len(listname3)
+
+  popularsong = [numvotessong1, numvotessong2, numvotessong3]
+
+  print("<h2>", splitSongsName[0], ":", numvotessong1, " votes</h2>")
+  print("<h2>", splitSongsName[1], ":", numvotessong2, " votes</h2>")
+  print("<h2>", splitSongsName[2], ":", numvotessong3, " votes</h2>")
 
   iFrame = '<iframe id = "theVideo" width="44%" height="200" src="'
   iFrame += 'https://www.youtube.com/embed?listType=search&list='
-  iFrame += songNames[results.index(max(results))]
+  iFrame += splitSongsURL[popularsong.index(max(popularsong))]
   iFrame += '" frameborder="0" style="border: solid 4px #37474F"></iframe>'
-
 
   print(iFrame)
 
