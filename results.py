@@ -106,7 +106,7 @@ def readResults(resultsList):
   songs = open("results.txt", 'r')
 
   for line in songs:
-    resultsList.append(line)
+    resultsList.append(line.rstrip('\n'))
   
   return resultsList
 
@@ -121,35 +121,25 @@ def main():
               ]
 
   results = readResults(results)
-  listsong1 = []
+
   listname1 = []
-  listsong2 = []
   listname2 = []
-  listsong3 = []
   listname3 = []
+
   for items in results:
-    a = items.split(":")
-    if a[1] == 1:
-      listsong1.append(a[0]) 
-      listname1.append(a[1])
-    if a[1] == 2:
-      listsong2.append(a[0])
-      listname2.append(a[1])
-    if a[1] == 3:
-      listsong3.append(a[0])
-      listname3.append(a[1])
+    name, vote = items.split(":")
+    if vote == "1":
+      listname1.append(name)
+    if vote == "2":
+      listname2.append(name)
+    if vote == "3":
+      listname3.append(name)
 
-    numvotessong1 = list1.length()
-    numvotessong2 = list2.length()
-    numvotessong3 = list3.length()
+  numvotessong1 = len(listname1)
+  numvotessong2 = len(listname2)
+  numvotessong3 = len(listname3)
 
-
-    popularsong = []
-    popularsong.append(numvotessong1)
-    popularsong.append(numvotessong2)
-    popularsong.append(numvotessong3)
-
-
+  popularsong = [numvotessong1, numvotessong2, numvotessong3]
 
   print("<h2>", songNames[0], ":", numvotessong1, " votes</h2>")
   print("<h2>", songNames[1], ":", numvotessong2, " votes</h2>")

@@ -57,16 +57,37 @@
 
           <div class="inner cover">
             
-          <h2>Vote for your Song:</h2>
+          <h2>Welcome to Democratic Playlists!</h2>
+          <h2>Login</h2>
           
           <!-- This is the buttons for song selections -->
             <div class="btn-group" role="group" aria-label="...">
 
 
-              <form action = "../cgi-bin/form.py" method = "post" id = "nameForm">
+              <form action = "../cgi-bin/login.py" method = "post" id = "loginForm">
                 <!-- <button type="button" class="btn btn-default">Song 1</button>
                 <button type="button" class="btn btn-default">Song 2</button>
                 <button type="button" class="btn btn-default">Song 3</button> -->
+
+                <p class = "formText">Username</p>
+                <input class = "form" type="text" name="username" placeholder = "username">
+                <p class = "formText">Password</p>
+                <input class = "form" type="password" name="password" placeholder = "password"><p>
+
+                <input class = "form"  type = "submit" name = "submit" value = "Log In">
+                <input class = "form"  type="reset" name="cancel" value=cancel>
+
+
+              </form>
+
+
+            </div>
+          
+          <!-- This is the buttons for song selections -->
+<!--             <div class="btn-group" role="group" aria-label="...">
+
+
+              <form action = "../cgi-bin/form.py" method = "post" id = "nameForm">
 
                 <input type = "radio" name = "song" value = "song1"><p>God's Plan &mdash; Drake</p>
                 <input type = "radio" name = "song" value = "song2"><p>IDGAF &mdash; Dua Lipa</p>
@@ -78,7 +99,7 @@
               </form>
 
 
-            </div>
+            </div> -->
 
            
 

@@ -124,6 +124,24 @@ def printLogin():
 
 """)
 
+def printVote(songList):
+  print("""
+<h2>Vote for your Song:</h2>
+          
+          <!-- This is the buttons for song selections -->
+            <div class="btn-group" role="group" aria-label="...">
+
+
+              <form action = "../cgi-bin/results.py" method = "post" id = "nameForm">
+
+                <input type = "radio" name = "song" value = "song1"><p>""" + songList[0] + """</p>""" + 
+                """<input type = "radio" name = "song" value = "song2"><p>""" + songList[1] + """</p>""" +
+                """<input type = "radio" name = "song" value = "song3"><p>""" + songList[2] + """</p>
+                <input class = "form" type = "submit" value = "Enter">
+              </form>
+            </div>
+    """)
+
 def readUsers(myUser, myPassword):
     users = open("users.txt", 'r')
     found = False
@@ -138,9 +156,20 @@ def readUsers(myUser, myPassword):
     users.close()
     return found
 
+def readSongs(mySongs):
+    songFile = open("songs.txt", "r")
+    for line in songFile:
+        mySongs.append(line.rstrip('\n'))
+
+    songFile.close()
+    return mySongs
+
 
 def main():
+    songs = []
+
     data = cgi.FieldStorage()
+    songs = readSongs(songs)
 
     if "username" not in data and "password" not in data:
         print("<h2>Please fill in all fields!</h2>")
@@ -152,6 +181,7 @@ def main():
         exists = readUsers(username, password)
         if exists:
             print("<h2>Welcome " + username + "!</h2>")
+            print(printVote(songs))
         else:
             print("<h2>Username or password are incorrect!</h2>")
             printLogin()
