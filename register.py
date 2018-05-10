@@ -122,16 +122,32 @@ def saveResults(item):
 	results.write(item + "\n")
 	results.close()
 
+def readResults(resultsList):
+  usertext = open("users.txt", 'r')
+
+  for line in usertext:
+    resultsList.append(line.rstrip('\n'))
+  
+  return resultsList
+
 def main():
 	data = cgi.FieldStorage()
+
+  results = readResults (results)
 
 	if "username" not in data and "password" not in data:
 		print("<h2>Please fill in all fields!</h2>")
 		printRegistration()
 
 	else: 
-		username = data["username"].value
+		username != data["username"].value
 		password = data["password"].value
+
+  if "username" in results:
+    print ("<h2> Username already exists. Please choose another username.")
+    printRegistration()
+
+  else:
 
 		userString =  username + ":" + password
 
