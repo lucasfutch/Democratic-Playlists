@@ -3,8 +3,7 @@ print("Content-Type: text/html\n\n")
 
 import cgi
 import cgitb
-
-import scrape
+import random
 
 def htmlHead():
 	print(""" 
@@ -99,6 +98,11 @@ def saveResults(name):
   results.write(name + "\n")
   results.close()
 
+def saveSong(name):
+  results = open("songs.txt", 'a')
+  results.write(name + "\n")
+  results.close()
+
 def readResults(resultsList):
   results = open("results.txt", 'r')
 
@@ -111,6 +115,14 @@ def readResults(resultsList):
 
 def readSongs(mySongs):
     songFile = open("songs.txt", "r")
+    for line in songFile:
+        mySongs.append(line.rstrip('\n'))
+
+    songFile.close()
+    return mySongs
+
+def readAllSongs(mySongs):
+    songFile = open("allSongs.txt", "r")
     for line in songFile:
         mySongs.append(line.rstrip('\n'))
 
@@ -171,13 +183,19 @@ def results():
   iFrame += splitSongsURL[popularsong.index(max(popularsong))]
   iFrame += '" frameborder="0" style="border: solid 4px #37474F"></iframe>'
 
-  if len(results) == 10:
-    open("results.txt", "w").close()
-    scrape.scrape()
-
-
-
   print(iFrame)
+
+  if len(results) == 10:
+    allSongs = []
+    allSongs = readAllSongs(allSongs)
+    open("results.txt", "w").close()
+    open("songs.txt", "w").close()
+    for song in range(3):
+      saveSong(random.choice(allSongs))
+
+
+
+  
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ import random
 import unidecode
 
 def saveResults(name):
-  results = open("songs.txt", 'a')
+  results = open("allSongs.txt", 'a')
   results.write(name + "\n")
   results.close()
 
@@ -23,7 +23,7 @@ def scrape():
   currentString = website[before:after]
 
   # get top 50 songs
-  for item in range(25):
+  for item in range(475):
   	# find the first video link and save it
   	codeStart 	= currentString.find("video/")
   	code 		= currentString[codeStart + 6 : codeStart + 17]
@@ -50,7 +50,7 @@ def scrape():
   	songName = unidecode.unidecode(songName)
 
   	# save song and youtube code
-  	songList.append(songName + ":" + code)
+  	saveResults(songName + ":" + code)
 
   	# before is now in front of wherever the code was found
   	before = before + codeStart + 25
@@ -60,10 +60,10 @@ def scrape():
   	currentString = website[before:after]
 
   # select and save three songs
-  open("songs.txt", "w").close()
-  for song in range(3):
-  	random.choice(songList)
-  	saveResults(random.choice(songList))
+  # open("songs.txt", "w").close()
+  # for song in range(3):
+  # 	random.choice(songList)
+  # 	saveResults(random.choice(songList))
 
 if __name__ == '__main__':
     scrape()
